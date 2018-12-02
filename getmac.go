@@ -16,7 +16,9 @@ func getMacAddr() ([]string, error) {
 	for _, mac := range macs {
 		result := mac.HardwareAddr.String()
 		if result != "" {
-			results = append(results, result)
+			// addr[0] : IPv6, addr[1..] : IPv4
+			addr, _ := mac.Addrs()
+			results = append(results, result+","+addr[1].String()+","+mac.Name)
 		}
 	}
 	return results, nil
